@@ -43,6 +43,19 @@ def create_todo(todo: TodoCreate):
     conn.close()
     return dict(row)
 
+@app.put("/api/todos/reorder")
+def reorder_todos(req: ReorderRequest):
+    conn = get_connection()
+    for index, todo_id in enumerate(req.ids):
+        conn.execute(
+            "UPDATE todos SET sort_order = ? WHERE id = ?",
+            (index, todo_id),
+        )
+    conn.commit()
+    conn.close()
+    return {"success": True}
+
+
 @app.put("/api/todos/{todo_id}", response_model=TodoResponse)
 def update_todo(todo_id: int, todo: TodoUpdate):
     conn = get_connection()
@@ -101,6 +114,19 @@ def create_note(note: NoteCreate):
     return dict(row)
 
 
+@app.put("/api/notes/reorder")
+def reorder_notes(req: ReorderRequest):
+    conn = get_connection()
+    for index, note_id in enumerate(req.ids):
+        conn.execute(
+            "UPDATE notes SET sort_order = ? WHERE id = ?",
+            (index, note_id),
+        )
+    conn.commit()
+    conn.close()
+    return {"success": True}
+
+
 @app.put("/api/notes/{note_id}", response_model=NoteResponse)
 def update_note(note_id: int, note: NoteUpdate):
     conn = get_connection()
@@ -137,27 +163,4 @@ def delete_note(note_id: int):
         raise HTTPException(status_code=404, detail="Note not found")
 
 
-@app.put("/api/todos/reorder")
-def reorder_todos(req: ReorderRequest):
-    conn = get_connection()
-    for index, todo_id in enumerate(req.ids):
-        conn.execute(
-            "UPDATE todos SET sort_order = ? WHERE id = ?",
-            (index, todo_id),
-        )
-    conn.commit()
-    conn.close()
-    return {"success": True}
 
-
-@app.put("/api/notes/reorder")
-def reorder_notes(req: ReorderRequest):
-    conn = get_connection()
-    for index, note_id in enumerate(req.ids):
-        conn.execute(
-            "UPDATE notes SET sort_order = ? WHERE id = ?",
-            (index, note_id),
-        )
-    conn.commit()
-    conn.close()
-    return {"success": True}
