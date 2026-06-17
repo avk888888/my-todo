@@ -15,7 +15,8 @@ def init_db():
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             title TEXT NOT NULL,
             completed INTEGER NOT NULL DEFAULT 0,
-            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            sort_order INTEGER NOT NULL DEFAULT 0
         )
     """)
     conn.execute("""
@@ -24,8 +25,21 @@ def init_db():
             title TEXT NOT NULL,
             content TEXT NOT NULL DEFAULT '',
             created_at TEXT NOT NULL DEFAULT (datetime('now')),
-            updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+            updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+            sort_order INTEGER NOT NULL DEFAULT 0
         )
     """)
     conn.commit()
+
+    # Migration for existing databases
+    try:
+        conn.execute("ALTER TABLE todos ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0")
+    except Exception:
+        pass
+
+    try:
+        conn.execute("ALTER TABLE notes ADD COLUMN sort_order INTEGER NOT NULL DEFAULT 0")
+    except Exception:
+        pass
+
     conn.close()

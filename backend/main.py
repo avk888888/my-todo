@@ -1,7 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from database import get_connection, init_db
+from pydantic import BaseModel
 from models import TodoCreate, TodoUpdate, TodoResponse, NoteCreate, NoteUpdate, NoteResponse
+
+
+class ReorderRequest(BaseModel):
+    ids: list[int]
 
 app = FastAPI()
 
@@ -19,7 +24,7 @@ def startup():
 @app.get("/api/todos", response_model=list[TodoResponse])
 def list_todos():
     conn = get_connection()
-    rows = conn.execute("SELECT * FROM todos ORDER BY id DESC").fetchall()
+    rows = conn.execute("SELECT * FROM todos ORDER BY sort_order ASC, id DESC").fetchall()
     conn.close()
     return [dict(row) for row in rows]
 
@@ -75,7 +80,7 @@ def delete_todo(todo_id: int):
 @app.get("/api/notes", response_model=list[NoteResponse])
 def list_notes():
     conn = get_connection()
-    rows = conn.execute("SELECT * FROM notes ORDER BY updated_at DESC").fetchall()
+    rows = conn.execute("SELECT * FROM notes ORDER BY sort_order ASC, id DESC").fetchall()
     conn.close()
     return [dict(row) for row in rows]
 
@@ -130,3 +135,29 @@ def delete_note(note_id: int):
     conn.close()
     if cursor.rowcount == 0:
         raise HTTPException(status_code=404, detail="Note not found")
+
+
+@app.put("/api/todos/reorder")
+def reorder_todos(req: ReorderRequest):
+    conn = get_connection()
+    for index, todo_id in enumerate(req.ids):
+        conn.execute(
+            "UPDATE todos SET sort_order = ? WHERE id = ?",
+            (index, todo_id),
+        )
+    conn.commit()
+    conn.close()
+    return {"success": True}
+
+
+@app.put("/api/notes/reorder")
+def reorder_notes(req: ReorderRequest):
+    conn = get_connection()
+    for index, note_id in enumerate(req.ids):
+        conn.execute(
+            "UPDATE notes SET sort_order = ? WHERE id = ?",
+            (index, note_id),
+        )
+    conn.commit()
+    conn.close()
+    return {"success": True}
