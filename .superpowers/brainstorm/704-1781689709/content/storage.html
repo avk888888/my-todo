@@ -1,0 +1,37 @@
+<h2>記事資料存在哪裡？</h2>
+<p class="subtitle">Todo 已經使用後端 SQLite 資料庫，記事要怎麼存？</p>
+
+<div class="options">
+  <div class="option" data-choice="database" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>🗄️ 後端資料庫（推薦）</h3>
+      <p>在現有 SQLite 新增 <code>notes</code> 資料表，透過 FastAPI CRUD API</p>
+      <div class="pros-cons" style="margin-top:0.5rem">
+        <div class="pros"><h4>優點</h4><ul>
+          <li>資料持久化，重啟不丟失</li>
+          <li>與 Todo 一致的模式</li>
+          <li>跨裝置（未來可擴展）</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="localstorage" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>💾 瀏覽器 LocalStorage</h3>
+      <p>記事只存前端，不經過後端</p>
+      <div class="pros-cons" style="margin-top:0.5rem">
+        <div class="pros"><h4>優點</h4><ul>
+          <li>不需改後端</li>
+          <li>即時存取</li>
+        </ul></div>
+        <div class="cons"><h4>缺點</h4><ul>
+          <li>清除瀏覽資料就沒了</li>
+          <li>無法跨裝置</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+</div>

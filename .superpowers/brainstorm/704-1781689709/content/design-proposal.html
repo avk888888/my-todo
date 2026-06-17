@@ -1,0 +1,67 @@
+<h2>📝 記事本設計方案</h2>
+<p class="subtitle">在現有 Todo App 下方新增記事功能</p>
+
+<div class="section">
+  <h3>版面架構</h3>
+  <div class="mockup">
+    <div class="mockup-body" style="padding:8px;min-height:250px">
+      <div style="background:#e8f0fe;border-radius:6px;padding:10px;font-size:0.75rem;margin-bottom:12px">
+        <div style="font-weight:600;margin-bottom:6px">📋 Todo List（保持不變）</div>
+        <div>☐ Buy milk</div>
+        <div>☐ Call Mom</div>
+        <div>☑️ Finish report</div>
+      </div>
+      <hr style="border:none;border-top:1px solid #ddd;margin:8px 0">
+      <div style="margin-top:8px">
+        <div style="font-weight:600;margin-bottom:8px;color:#d48a1a">📝 記事本</div>
+        <div style="display:flex;margin-bottom:10px">
+          <input placeholder="新記事標題..." style="flex:1;border:1px solid #ddd;border-radius:4px;padding:6px;font-size:0.7rem">
+          <button style="background:#d48a1a;color:white;border:none;border-radius:4px;padding:6px 12px;margin-left:4px;font-size:0.7rem">＋</button>
+        </div>
+        <div style="background:white;border:1px solid #eee;border-radius:6px;padding:8px;margin-bottom:6px">
+          <div style="font-weight:600;font-size:0.75rem">📝 會議重點 <span style="float:right;font-size:0.6rem;color:#999">10:30</span></div>
+          <div style="color:#666;font-size:0.7rem;margin-top:4px">下午2點與設計團隊開會討論新功能...</div>
+        </div>
+        <div style="background:white;border:1px solid #eee;border-radius:6px;padding:8px;">
+          <div style="font-weight:600;font-size:0.75rem">📝 購物清單 <span style="float:right;font-size:0.6rem;color:#999">昨天</span></div>
+          <div style="color:#666;font-size:0.7rem;margin-top:4px">牛奶、蛋、麵包、起司...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>資料模型 (Backend)</h3>
+  <div style="background:#f5f5f5;border-radius:6px;padding:10px;font-family:monospace;font-size:0.75rem">
+    <strong>notes 資料表</strong><br/>
+    id        INTEGER  PRIMARY KEY AUTOINCREMENT<br/>
+    title     TEXT     NOT NULL<br/>
+    content   TEXT     NOT NULL DEFAULT ''<br/>
+    created_at TEXT   NOT NULL DEFAULT (datetime('now'))<br/>
+    updated_at TEXT   NOT NULL DEFAULT (datetime('now'))
+  </div>
+</div>
+
+<div class="section">
+  <h3>API 端點</h3>
+  <div style="background:#f5f5f5;border-radius:6px;padding:10px;font-family:monospace;font-size:0.75rem">
+    GET    /api/notes       → 取得所有記事 (依 updated_at DESC)<br/>
+    POST   /api/notes       → 新增記事 { title }<br/>
+    PUT    /api/notes/{id}  → 更新記事 { title?, content? }<br/>
+    DELETE /api/notes/{id}  → 刪除記事
+  </div>
+</div>
+
+<div class="section">
+  <h3>前端元件</h3>
+  <div style="background:#f5f5f5;border-radius:6px;padding:10px;font-family:monospace;font-size:0.75rem">
+    types/index.ts      — 新增 Note, NoteCreate, NoteUpdate 型別<br/>
+    api/notes.ts        — 封裝 Notes CRUD API 請求<br/>
+    components/<br/>
+    ├── NoteInput.tsx   — 輸入標題，按 Enter 或 ＋ 新增記事<br/>
+    ├── NoteList.tsx    — 記事列表（含空狀態、筆數統計）<br/>
+    └── NoteItem.tsx    — 單則記事（點擊展開編輯標題+內容）<br/>
+    App.tsx             — 在 TodoList 下方渲染 NoteList
+  </div>
+</div>

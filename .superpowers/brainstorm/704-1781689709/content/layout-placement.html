@@ -1,0 +1,86 @@
+<h2>記事件要放在哪裡？</h2>
+<p class="subtitle">在現有的 Todo List 頁面中，你希望記事件以什麼方式呈現？</p>
+
+<div class="options" data-multiselect>
+  <div class="option" data-choice="inline" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>左右分割</h3>
+      <div class="mockup" style="margin-top:0.5rem">
+        <div class="mockup-body" style="display:flex;gap:4px;padding:4px;min-height:120px">
+          <div style="flex:1;background:#e8f0fe;border-radius:4px;padding:8px;font-size:0.7rem">
+            <strong>Todo List</strong><br/>
+            ☐ Buy milk<br/>
+            ☐ Call Mom<br/>
+            ☐ Finish report
+          </div>
+          <div style="flex:1;background:#fef7e0;border-radius:4px;padding:8px;font-size:0.7rem">
+            <strong>📝 記事本</strong><br/>
+            <div style="background:white;border-radius:3px;padding:4px;min-height:60px;margin-top:4px">
+              隨時記錄...
+            </div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:#666;margin-top:0.25rem">Todo 與記事左右並排</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="below" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>上下排列（記事在下方）</h3>
+      <div class="mockup" style="margin-top:0.5rem">
+        <div class="mockup-body" style="padding:4px;min-height:140px">
+          <div style="background:#e8f0fe;border-radius:4px;padding:8px;font-size:0.7rem;margin-bottom:4px">
+            <strong>Todo List</strong> ☐ Buy milk ☐ Call Mom
+          </div>
+          <div style="background:#fef7e0;border-radius:4px;padding:8px;font-size:0.7rem;min-height:50px">
+            <strong>📝 記事本</strong><br/>
+            <div style="background:white;border-radius:3px;padding:4px;min-height:30px;margin-top:2px">隨時記錄...</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:#666;margin-top:0.25rem">Todo 列表在上，記事本在下</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="tab" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>分頁切換</h3>
+      <div class="mockup" style="margin-top:0.5rem">
+        <div class="mockup-body" style="padding:4px;min-height:120px">
+          <div style="display:flex;gap:2px;margin-bottom:4px">
+            <div style="background:#4a90d9;color:white;padding:4px 12px;border-radius:4px 4px 0 0;font-size:0.7rem">📋 Todo</div>
+            <div style="background:#ddd;color:#666;padding:4px 12px;border-radius:4px 4px 0 0;font-size:0.7rem">📝 記事</div>
+          </div>
+          <div style="background:#fef7e0;border-radius:4px;padding:8px;font-size:0.7rem;min-height:60px">
+            <strong>記事本內容...</strong><br/>
+            <div style="background:white;border-radius:3px;padding:4px;min-height:40px;margin-top:2px"></div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:#666;margin-top:0.25rem">透過分頁切換 Todo 與記事</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="floating" onclick="toggleSelect(this)">
+    <div class="letter">D</div>
+    <div class="content">
+      <h3>浮動小視窗</h3>
+      <div class="mockup" style="margin-top:0.5rem">
+        <div class="mockup-body" style="padding:4px;min-height:140px;position:relative">
+          <div style="background:#e8f0fe;border-radius:4px;padding:8px;font-size:0.7rem;min-height:80px">
+            <strong>Todo List</strong> ☐ Buy milk ☐ Call Mom
+          </div>
+          <div style="position:absolute;bottom:4px;right:4px;background:#fef7e0;border:2px solid #f0a030;border-radius:6px;padding:6px;font-size:0.7rem;width:45%;box-shadow:2px 2px 8px rgba(0,0,0,0.15)">
+            <strong>📝 記事</strong><br/>
+            <div style="background:white;border-radius:3px;padding:4px;min-height:20px;margin-top:2px">隨時記錄...</div>
+          </div>
+        </div>
+      </div>
+      <p style="font-size:0.8rem;color:#666;margin-top:0.25rem">浮動在右下角，可拖曳</p>
+    </div>
+  </div>
+</div>
