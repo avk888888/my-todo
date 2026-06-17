@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { Note } from "../types";
 
 interface NoteItemProps {
@@ -11,6 +13,22 @@ export default function NoteItem({ note, onUpdate, onDelete }: NoteItemProps) {
   const [expanded, setExpanded] = useState(false);
   const [editTitle, setEditTitle] = useState(note.title);
   const [editContent, setEditContent] = useState(note.content);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: note.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    cursor: isDragging ? "grabbing" : "grab",
+  };
 
   function handleSave() {
     const trimmedTitle = editTitle.trim();
@@ -43,7 +61,7 @@ export default function NoteItem({ note, onUpdate, onDelete }: NoteItemProps) {
 
   if (expanded) {
     return (
-      <li className="note-item expanded">
+      <li className="note-item expanded" ref={setNodeRef} style={style}>
         <input
           type="text"
           className="note-edit-title"
@@ -63,15 +81,26 @@ export default function NoteItem({ note, onUpdate, onDelete }: NoteItemProps) {
           rows={3}
         />
         <div className="note-edit-actions">
-          <button className="btn-save" onClick={handleSave}>儲存</button>
+          <button
+            className="btn-save"
+            onClick={(e) => { e.stopPropagation(); handleSave(); }}
+          >
+            儲存
+          </button>
         </div>
       </li>
     );
   }
 
   return (
-    <li className="note-item" onClick={() => setExpanded(true)}>
-      <div className="note-header">
+    <li
+      className={`note-item ${isDragging ? "dragging" : ""}`}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      <div className="note-header" onClick={() => !isDragging && setExpanded(true)}>
         <span className="note-title">📝 {note.title}</span>
         <span className="note-time">{timeDisplay}</span>
       </div>
