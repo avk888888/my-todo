@@ -4,6 +4,7 @@ REM my-todo Server Starter
 REM Starts Backend (FastAPI) and Frontend (Vite Preview)
 REM ============================================
 
+set "NODE_ENV=development"
 set "ROOT_DIR=C:\Users\USER\projects\my-todo"
 set "LOG_DIR=%ROOT_DIR%\logs"
 set "PYTHON_DIR=%USERPROFILE%\AppData\Local\hermes\hermes-agent\venv\Scripts"
