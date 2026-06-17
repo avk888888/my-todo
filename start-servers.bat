@@ -26,7 +26,13 @@ echo [%date% %time%] Starting Frontend... >> "%LOG_DIR%\startup.log"
 cd /d "%ROOT_DIR%\frontend"
 start "" /B cmd /c "npx.cmd vite preview --port 5173 --host 127.0.0.1 > "%LOG_DIR%\frontend.log" 2>&1"
 
+REM Start Telegram Bot
+echo [%date% %time%] Starting Telegram Bot... >> "%LOG_DIR%\startup.log"
+cd /d "%ROOT_DIR%\telegram-bot"
+start "" /B cmd /c "set BOT_TOKEN=8948657312:AAG9ShGQKpMae8UcZN8lyAQFjpOyR_Ykouo && "%PYTHON_DIR%\python" bot.py > "%LOG_DIR%\telegram-bot.log" 2>&1"
+
 echo [%date% %time%] All servers started! >> "%LOG_DIR%\startup.log"
 echo Backend: http://localhost:8000
 echo Frontend: http://localhost:5173
+echo Telegram Bot: running
 echo API Docs: http://localhost:8000/docs
