@@ -94,6 +94,7 @@ h1 {
   gap: 0.5rem;
   padding: 0.75rem 0;
   border-bottom: 1px solid #eee;
+  touch-action: none;
 }
 
 .todo-item:last-child {
@@ -228,6 +229,7 @@ h1 {
   cursor: pointer;
   transition: box-shadow 0.2s;
   background: #fefdf7;
+  touch-action: none;
 }
 
 .note-item:hover {
@@ -330,4 +332,12 @@ h1 {
 
 .btn-save:hover {
   background: #b87514;
+}
+
+/* Drag & Drop */
+.todo-item.dragging,
+.note-item.dragging {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  position: relative;
 }

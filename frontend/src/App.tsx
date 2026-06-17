@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import type { Todo, Note } from "./types";
-import { fetchTodos, createTodo, updateTodo, deleteTodo } from "./api/todos";
-import { fetchNotes, createNote, updateNote, deleteNote } from "./api/notes";
+import { fetchTodos, createTodo, updateTodo, deleteTodo, reorderTodos } from "./api/todos";
+import { fetchNotes, createNote, updateNote, deleteNote, reorderNotes } from "./api/notes";
 import TodoInput from "./components/TodoInput";
 import TodoList from "./components/TodoList";
 import NoteInput from "./components/NoteInput";
@@ -105,6 +105,26 @@ export default function App() {
     }
   }
 
+  async function handleReorderTodos(ids: number[]) {
+    try {
+      setError(null);
+      await reorderTodos(ids);
+      await loadTodos();
+    } catch {
+      setError("Failed to reorder todos");
+    }
+  }
+
+  async function handleReorderNotes(ids: number[]) {
+    try {
+      setError(null);
+      await reorderNotes(ids);
+      await loadNotes();
+    } catch {
+      setError("Failed to reorder notes");
+    }
+  }
+
   return (
     <div className="app">
       <h1>React Todo List</h1>
@@ -115,6 +135,7 @@ export default function App() {
         onToggle={handleToggle}
         onUpdate={handleUpdate}
         onDelete={handleDelete}
+        onReorder={handleReorderTodos}
       />
       <hr className="divider" />
       <h2 className="notes-heading">📝 記事本</h2>
@@ -123,6 +144,7 @@ export default function App() {
         notes={notes}
         onUpdate={handleUpdateNote}
         onDelete={handleDeleteNote}
+        onReorder={handleReorderNotes}
       />
     </div>
   );
