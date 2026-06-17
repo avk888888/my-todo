@@ -34,3 +34,12 @@ export async function deleteNote(id: number): Promise<void> {
   });
   if (!res.ok) throw new Error("Failed to delete note");
 }
+
+export async function reorderNotes(ids: number[]): Promise<void> {
+  const res = await fetch(`${API_BASE}/notes/reorder`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ids }),
+  });
+  if (!res.ok) throw new Error("Failed to reorder notes");
+}
