@@ -13,3 +13,20 @@ class TodoResponse(BaseModel):
     title: str
     completed: bool
     created_at: str
+
+
+class NoteCreate(BaseModel):
+    title: str
+
+
+class NoteUpdate(BaseModel):
+    title: Optional[str] = None
+    content: Optional[str] = None
+
+
+class NoteResponse(BaseModel):
+    id: int
+    title: str
+    content: str
+    created_at: str
+    updated_at: str
