@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import type { Todo } from "../types";
 
 interface TodoItemProps {
@@ -11,6 +13,22 @@ interface TodoItemProps {
 export default function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoItemProps) {
   const [editing, setEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
+
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: todo.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    cursor: isDragging ? "grabbing" : "grab",
+  };
 
   function handleSave() {
     const trimmed = editTitle.trim();
@@ -30,7 +48,7 @@ export default function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoIte
 
   if (editing) {
     return (
-      <li className="todo-item editing">
+      <li className="todo-item editing" ref={setNodeRef} style={style}>
         <input
           type="text"
           value={editTitle}
@@ -44,17 +62,40 @@ export default function TodoItem({ todo, onToggle, onUpdate, onDelete }: TodoIte
   }
 
   return (
-    <li className={`todo-item ${todo.completed ? "completed" : ""}`}>
+    <li
+      className={`todo-item ${todo.completed ? "completed" : ""} ${isDragging ? "dragging" : ""}`}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
       <input
         type="checkbox"
         checked={todo.completed}
-        onChange={(e) => onToggle(todo.id, e.target.checked)}
+        onChange={(e) => {
+          e.stopPropagation();
+          onToggle(todo.id, e.target.checked);
+        }}
+        onClick={(e) => e.stopPropagation()}
       />
       <span className="todo-title">{todo.title}</span>
-      <button className="btn-edit" onClick={() => { setEditTitle(todo.title); setEditing(true); }}>
+      <button
+        className="btn-edit"
+        onClick={(e) => {
+          e.stopPropagation();
+          setEditTitle(todo.title);
+          setEditing(true);
+        }}
+      >
         ✏️
       </button>
-      <button className="btn-delete" onClick={() => onDelete(todo.id)}>
+      <button
+        className="btn-delete"
+        onClick={(e) => {
+          e.stopPropagation();
+          onDelete(todo.id);
+        }}
+      >
         🗑️
       </button>
     </li>
